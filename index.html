@@ -1,71 +1,18 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="GroupOrder - simple group-buy order divider and settlement calculator." />
-  <title>GroupOrder</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="GroupOrder group-buy manager"><title>GroupOrder</title><link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand"><span class="brand-mark">G</span><span>GroupOrder</span></div>
-    <button id="resetBtn" class="ghost-btn">Reset</button>
-  </header>
-
-  <main class="container">
-    <section class="hero">
-      <div>
-        <p class="eyebrow">GROUP BUY • COST SPLITTER</p>
-        <h1>Divide a group order without the spreadsheet.</h1>
-        <p class="subtitle">Add the order, assign quantities to people, and GroupOrder calculates what everyone owes.</p>
-      </div>
-      <div class="hero-total"><span>Order total</span><strong id="orderTotal">$0.00</strong></div>
-    </section>
-
-    <div class="grid">
-      <section class="card">
-        <div class="card-head"><h2>Order</h2><button id="addItemBtn" class="primary-btn">+ Add item</button></div>
-        <div id="items" class="items"></div>
-        <div class="empty" id="emptyItems">No items yet. Add the products in your group order.</div>
-      </section>
-
-      <section class="card">
-        <div class="card-head"><h2>Participants</h2><button id="addPersonBtn" class="primary-btn">+ Add person</button></div>
-        <div id="people" class="people"></div>
-        <div class="empty" id="emptyPeople">Add everyone taking part in the order.</div>
-      </section>
-    </div>
-
-    <section class="card allocation-card">
-      <div class="card-head">
-        <div><h2>Allocation</h2><p class="muted">Set how many units each person receives. Unit prices are calculated from the order.</p></div>
-        <select id="allocationMode" class="select"><option value="quantity">Quantity</option><option value="amount">Amount</option></select>
-      </div>
-      <div id="allocation" class="allocation"></div>
-      <div class="empty" id="emptyAllocation">Add items and participants to start allocating.</div>
-    </section>
-
-    <section class="card summary-card">
-      <div class="card-head"><div><h2>Settlement</h2><p class="muted">A clear total for each participant.</p></div><button id="copyBtn" class="secondary-btn">Copy summary</button></div>
-      <div id="summary" class="summary"></div>
-    </section>
-
-    <footer>GroupOrder · data stays in your browser · <span id="saveStatus">Saved</span></footer>
-  </main>
-
-  <template id="itemTemplate">
-    <div class="item-row">
-      <input class="item-name" placeholder="Item name" aria-label="Item name" />
-      <input class="item-price" type="number" min="0" step="0.01" placeholder="Price" aria-label="Price" />
-      <input class="item-qty" type="number" min="1" step="1" placeholder="Qty" aria-label="Quantity" />
-      <button class="icon-btn delete-item" title="Remove item">×</button>
-    </div>
-  </template>
-  <template id="personTemplate">
-    <div class="person-row"><input class="person-name" placeholder="Name" aria-label="Participant name" /><button class="icon-btn delete-person" title="Remove participant">×</button></div>
-  </template>
-
-  <script src="app.js"></script>
-</body>
-</html>
+<header class="topbar"><div class="brand"><span class="brand-mark">G</span>GroupOrder</div><div class="top-actions"><button id="newSessionBtn" class="primary-btn">+ New session</button><button id="resetBtn" class="ghost-btn">Reset</button></div></header>
+<main class="container">
+<section class="hero"><div><p class="eyebrow">GROUP BUY MANAGER</p><h1>Pick, divide, and settle group orders.</h1><p class="subtitle">Manage shops, reusable items, separate order sessions, participants, and automatic cost splitting.</p></div><div class="hero-total"><span>Session total</span><strong id="orderTotal">$0.00</strong></div></section>
+<section class="card session-bar"><div><label>Session</label><select id="sessionSelect" class="select"></select></div><div class="session-meta"><input id="sessionDate" type="date"><input id="sessionShop" placeholder="Shop name"></div><button id="deleteSessionBtn" class="danger-btn">Delete session</button></section>
+<div class="tabs"><button class="tab active" data-tab="shop">Shop</button><button class="tab" data-tab="order">Session order</button><button class="tab" data-tab="people">Participants</button><button class="tab" data-tab="settlement">Settlement</button></div>
+<section id="tab-shop" class="tab-panel"><div class="two-col"><section class="card"><div class="card-head"><div><h2>Shop catalogue</h2><p class="muted">Upload/import items once, then pick only the volume you need.</p></div><div><button id="addShopItemBtn" class="secondary-btn">+ Item</button><button id="importBtn" class="secondary-btn">Import CSV</button><input id="csvInput" type="file" accept=".csv" hidden></div></div><div id="catalogue" class="catalogue"></div><div id="emptyCatalogue" class="empty">No shop items yet.</div></section><section class="card"><div class="card-head"><div><h2>Participants</h2><p class="muted">People available for this session.</p></div><button id="addPersonBtn" class="primary-btn">+ Add person</button></div><div id="peopleQuick" class="people"></div></section></div></section>
+<section id="tab-order" class="tab-panel hidden"><section class="card"><div class="card-head"><div><h2>Session order</h2><p class="muted">Add an item, choose interested participants, then adjust quantities if needed.</p></div><button id="copyOrderBtn" class="secondary-btn">Copy items to order</button></div><div id="orderItems"></div><div id="emptyOrder" class="empty">Your session order is empty. Pick items from the Shop tab.</div></section></section>
+<section id="tab-people" class="tab-panel hidden"><section class="card"><div class="card-head"><h2>Participants</h2><button id="addPersonBtn2" class="primary-btn">+ Add person</button></div><div id="peopleFull" class="people"></div></section></section>
+<section id="tab-settlement" class="tab-panel hidden"><section class="card"><div class="card-head"><div><h2>Settlement</h2><p class="muted">Each participant's itemized order and total.</p></div><button id="copyAllBtn" class="secondary-btn">Copy all</button></div><div id="summary" class="summary"></div></section></section>
+<footer>GroupOrder · saved in your browser · <span id="saveStatus">Saved</span></footer>
+</main><input id="shopCsvInput" type="file" accept=".csv" hidden><script src="app.js"></script>
+</body></html>
